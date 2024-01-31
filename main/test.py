@@ -1,64 +1,76 @@
-import tkinter as tk
-from tkinter import scrolledtext
+from flask import Flask, render_template, request, jsonify
+import json
+import random
+import requests
+from bs4 import BeautifulSoup
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
 
-class RuleBasedChatbot:
-    def __init__(self):
-        self.knowledge_base = {
-            "hello": "Hi there! How can I help you today?",
-            "how are you": "I'm just a bot, but thanks for asking!",
-            "goodbye": "Goodbye! Have a great day!",
-            "tell me a joke": "Sure, why did the computer go to therapy? It had too many bytes of emotional baggage!"
-            # Add more entries based on your use case
-        }
+app = Flask(__name__)
 
-    def get_response(self, user_input):
-        user_input = user_input.lower()
+tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
+model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
 
-        for key in self.knowledge_base:
-            if key in user_input:
-                return self.knowledge_base[key]
+def load_config(file_path):
+    with open(file_path, 'r') as file:
+        return json.load(file)
 
-        return "I'm sorry, I didn't understand that. Can you please rephrase?"
+def get_response(user_input, intents):
+    user_input = user_input.lower()
+    for intent in intents["intents"]:
+        if user_input in map(str.lower, intent["patterns"]):
+            return random.choice(intent["responses"])
 
-class ChatbotGUI:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Chatbot")
+    scraped_response = scrape_website(user_input)
+    if scraped_response:
+        return scraped_response
 
-        self.chatbot = RuleBasedChatbot()
+    return random.choice(["Theriyala Bro", "crt aaa keelu da", "Oru alavuku thaa bro"])
 
-        self.create_widgets()
+def scrape_website(query):
+    url = f'https://www.mediwavedigital.com/q={query}'
+    response = requests.get(url)
 
-    def create_widgets(self):
-        self.chat_display = scrolledtext.ScrolledText(self.master, wrap=tk.WORD, width=50, height=15)
-        self.chat_display.pack(padx=10, pady=10)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+        first_paragraph = soup.find('p')
+        if first_paragraph:
+            return first_paragraph.get_text()
 
-        self.user_input_entry = tk.Entry(self.master, width=50)
-        self.user_input_entry.pack(padx=10, pady=10)
+    return None
 
-        self.send_button = tk.Button(self.master, text="Send", command=self.send_user_input)
-        self.send_button.pack(padx=10, pady=10)
+@app.route("/chat", methods=["GET", "POST"])
+def chat():
+    msg = request.form["msg"]
+    input_text = msg
+    gpt_response = get_Chat_response(input_text)
 
-        self.quit_button = tk.Button(self.master, text="Quit", command=self.master.destroy)
-        self.quit_button.pack(padx=10, pady=10)
+    chatbot_config = load_config('chatbot_config.json')
+    intent_response = get_response(input_text, chatbot_config)
 
-    def send_user_input(self):
-        user_input = self.user_input_entry.get()
-        self.user_input_entry.delete(0, tk.END)
+    final_response = f"GPT Response: {gpt_response}\nIntent Response: {intent_response}"
 
-        if user_input.lower() == 'exit':
-            self.chat_display.insert(tk.END, "You: " + user_input + "\n")
-            self.chat_display.insert(tk.END, "Bot: Goodbye! Have a great day!\n")
-            self.master.after(1000, self.master.destroy)  # Delayed quit after displaying the goodbye message
-        else:
-            response = self.chatbot.get_response(user_input)
-            self.chat_display.insert(tk.END, "You: " + user_input + "\n")
-            self.chat_display.insert(tk.END, "Bot: " + response + "\n")
+    return jsonify({'response': final_response})
 
-def main():
-    root = tk.Tk()
-    chatbot_gui = ChatbotGUI(root)
-    root.mainloop()
+def get_Chat_response(text):
+    new_user_input_ids = tokenizer.encode(str(text) + tokenizer.eos_token, return_tensors='pt')
+    bot_input_ids = new_user_input_ids
 
-if __name__ == "__main__":
-    main()
+    chat_history_ids = model.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizer.eos_token_id)
+
+    return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)
+
+@app.route('/get', methods=['POST'])
+def get_bot_response():
+    user_input = request.form['msg']
+    chatbot_config = load_config('chatbot_config.json')
+    bot_response = get_response(user_input, chatbot_config)
+    return jsonify({'response': bot_response})
+
+@app.route('/')
+def index():
+    chatbot_config = load_config('chatbot_config.json')
+    return render_template('index.html', chatbot_config=chatbot_config)
+
+if __name__ == '__main__':
+    app.run(debug=True)

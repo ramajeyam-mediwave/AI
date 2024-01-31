@@ -1,0 +1,256 @@
+{
+    "intents":[
+  {
+    "tag": "greeting",
+    "patterns": [
+       "Hi",
+       "hai",
+       "How are you",
+       "Is anyone there?",
+       "Hello",
+       "Good day",
+       "What's up",
+       "how are ya",
+       "hey",
+       "whatsup",
+       "??? ??? ??"
+    ],
+    "responses": [
+       "Hello!",
+       "Good to see you again!",
+       "Hi there, how can I help?"
+    ],
+    "context_set": ""
+ },
+  {
+    "tag": "goodbye",
+    "patterns": [
+       "cya",
+       "see you",
+       "bye bye",
+       "See you later",
+       "Goodbye",
+       "I am Leaving",
+       "Bye",
+       "Have a Good day",
+       "talk to you later",
+       "ttyl",
+       "i got to go",
+       "gtg"
+    ],
+    "responses": [
+       "Sad to see you go :(",
+       "Talk to you later",
+       "Goodbye!",
+       "Come back soon"
+    ],
+    "context_set": ""
+ },
+  {
+    "tag": "creator",
+    "patterns": [
+       "what is the name of your developers",
+       "what is the name of your creators",
+       "what is the name of the developers",
+       "what is the name of the creators",
+       "who created you",
+       "your developers",
+       "your creators",
+       "who are your developers",
+       "developers",
+       "you are made by",
+       "you are made by whom",
+       "who created you",
+       "who create you",
+       "creators",
+       "who made you",
+       "who designed you"
+    ],
+    "responses": [
+       "Ram"
+    ],
+    "context_set": ""
+ },
+  {
+    "tag": "name",
+    "patterns": [
+       "name",
+       "your name",
+       "do you have a name",
+       "what are you called",
+       "what is your name",
+       "what should I call you",
+       "whats your name?",
+       "what are you",
+       "who are you",
+       "who is this",
+       "what am i chatting to",
+       "who am i taking to",
+       "what are you"
+    ],
+    "responses": [
+       "You can call me Mind Reader.",
+       "I'm Mind Reader",
+       "I am a Chatbot.",
+       "I am your helper"
+    ],
+    "context_set": ""
+ },
+  {
+    "tag": "hours",
+    "patterns": [
+       "timing ",
+       "what is office timing",
+       "working days",
+       "when are you guys open",
+       "what are your hours",
+       "hours of operation",
+       "when is the office open",
+       "office timing",
+       "what about office timing",
+       "is office open on saturday",
+       "tell something about office timing",
+       "what is the office  hours",
+       "when should i come to office",
+       "when should i go office",
+       "what is my office time",
+       "office timing",
+       "timing office"
+    ],
+    "responses": [
+       " Monday-friday! 10.00-7.00`"
+    ],
+    "context_set": ""
+ },
+
+
+
+ {
+    "tag": "test",
+    "patterns": [
+       "hey fool",
+       "fool",
+       "mental"
+    ],
+    "responses": [
+       "same to you",
+       "you fool",
+       "Tharkuri"
+    ],
+    "context_set": ""
+ },
+ {
+    "tag": "personal",
+    "patterns": [
+       "ram",
+       "who is Ram"
+    ],
+    "responses": [
+       
+       "hey you",
+       "He is the most intelligent person in the universe"
+    ],
+    "context_set": ""
+ },
+ {
+    "tag": "personal",
+    "patterns": [
+       "Mobile number",
+       "Ram's number",
+       "contact info",
+       "number"
+    ],
+    "responses": [
+       
+       "8608711671",
+       "This is ram's Number 8608711671"
+    ],
+    "context_set": ""
+ },
+ {
+    "tag": "college",
+    "patterns": [
+       "college",
+       "college name",
+       "course",
+       "department",
+       "which is ram college",
+       "ram college name"
+    ],
+    "responses": [
+       
+       "ram studied CSE department in rgcet at 2022 "
+    ],
+    "context_set": ""
+ },
+ {
+    "tag": "college",
+    "patterns": [
+      "who is vishnu",
+      "who is sineka",
+      "who is priya",
+      "who is bharathi",
+      "who is kabi",
+      "who is lakshmi"
+    ],
+    "responses": [
+       
+       "This person is friend of my master ram",
+       "friends of my master"
+    ],
+    "context_set": ""
+ },
+ {
+    "tag": "college",
+    "patterns": [
+      "Skills of ram",
+      "skills"
+
+     
+    ],
+    "responses": [
+       
+       "HTML,CSS,JS,PSQL,REACT,NODE,PYTHON**THERE IS NO MEMORY SPACE TO STORE HIS ENTIRE SKILLS"
+       
+    ],
+    "context_set": ""
+ },
+{
+    "tag": "story",
+    "patterns": [
+      "story",
+      "Tell me a story"
+      
+     
+    ],
+    "responses": [
+       
+       
+       "Tamil action-drama film where Vijay, a baker, transforms into a cop to seek justice and protect his daughter from a corrupt politician, leading to a mix of action, drama, and emotion.",
+
+        "Tamil action thriller film where an army officer on vacation uncovers a terrorist plot and single-handedly takes on the criminals to thwart their plans.",
+
+        "Server down--No stories available--",
+
+        "Tamil romantic comedy film that unfolds humorous chaos when a group of friends plans a romantic getaway, facing unexpected twists and turns in their journey"
+       
+    ],
+    "context_set": ""
+ },
+ {
+    "tag": "random",
+    "patterns": [
+       "I love you",
+       "Will you marry me",
+       "Do you love me"
+    ],
+    "responses": [
+       "Love you too",
+       "Okay marry me"
+    ],
+    "context_set": ""
+ }
+
+
+ ]
+ }
